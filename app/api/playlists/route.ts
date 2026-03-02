@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     const userPlaylists = await db
       .select()
       .from(playlists)
-      .where(eq(playlists.userId, parseInt(session.user.id)))
+      .where(eq(playlists.userId, parseInt(session.user.id!)))
       .orderBy(desc(playlists.createdAt));
 
     return NextResponse.json({ playlists: userPlaylists });
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     }
 
     const [newPlaylist] = await db.insert(playlists).values({
-      userId: parseInt(session.user.id),
+      userId: parseInt(session.user.id!),
       name,
       description,
       isPublic: isPublic || false,
