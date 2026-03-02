@@ -1,6 +1,8 @@
 # Hrisa Music - Next.js App
 
-A modern music management and streaming application built with Next.js 15, Neon Postgres, and Vercel Blob Storage.
+A modern music management and streaming application built with Next.js 15, Neon Postgres, and NextAuth.
+
+**🌐 Live Demo**: [https://hrisamux.netlify.app](https://hrisamux.netlify.app)
 
 ## 🚀 Quick Start
 
@@ -42,40 +44,37 @@ A modern music management and streaming application built with Next.js 15, Neon 
 
    Open [http://localhost:3000](http://localhost:3000)
 
-## 📦 Deployment to Vercel
+## 📦 Deployment (Netlify)
 
 ### Step 1: Create Neon Database
 
 1. Go to [neon.tech](https://neon.tech)
 2. Create a new project
 3. Copy the connection string
-4. Save it for later
+4. Save it for deployment
 
-### Step 2: Deploy to Vercel
+### Step 2: Deploy to Netlify
 
 1. **Push code to GitHub**
    ```bash
    git add .
-   git commit -m "Initial Hrisa Next.js app"
+   git commit -m "Deploy Hrisa music app"
    git push origin main
    ```
 
-2. **Connect to Vercel**
-   - Go to [vercel.com](https://vercel.com)
-   - Click "Add New Project"
-   - Import your GitHub repository
+2. **Connect to Netlify**
+   - Go to [app.netlify.com](https://app.netlify.com)
+   - Click "Import from Git" → "GitHub"
+   - Select your repository
    - Configure:
-     - Framework Preset: Next.js
-     - Root Directory: `hrisa-web`
-     - Build Command: `npm run build`
-     - Output Directory: `.next`
+     - Build command: `npm run build`
+     - Publish directory: `.next`
 
-3. **Add Environment Variables** in Vercel dashboard:
+3. **Add Environment Variables**:
    ```
    DATABASE_URL=<your-neon-connection-string>
-   NEXTAUTH_URL=https://your-app.vercel.app
+   NEXTAUTH_URL=https://your-app.netlify.app
    NEXTAUTH_SECRET=<generate-random-string>
-   BLOB_READ_WRITE_TOKEN=<leave-empty-for-now>
    ```
 
    Generate NEXTAUTH_SECRET:
@@ -83,66 +82,105 @@ A modern music management and streaming application built with Next.js 15, Neon 
    openssl rand -base64 32
    ```
 
-4. **Deploy**
-   - Click "Deploy"
-   - Wait for deployment to complete
+4. **Deploy** - Netlify will automatically build and deploy
 
-### Step 3: Set up Vercel Blob Storage
+### Step 3: Initialize Database (Local)
 
-1. In Vercel dashboard:
-   - Go to "Storage" tab
-   - Click "Create Database"
-   - Select "Blob"
-   - Name it "hrisa-music"
+```bash
+# Pull environment variables
+cp .env.example .env.local
+# Add your DATABASE_URL
 
-2. Get the token:
-   - Click on your Blob storage
-   - Go to "Settings"
-   - Copy "Read-Write Token"
+# Push schema to Neon
+npm run db:push
+```
 
-3. Add to Environment Variables:
-   ```
-   BLOB_READ_WRITE_TOKEN=<your-blob-token>
-   ```
+## 🎯 Features & Roadmap
 
-4. Redeploy to apply changes
+### ✅ Phase 1: Core Infrastructure (Completed)
+- [x] Next.js 15 with App Router & Turbopack
+- [x] User authentication (NextAuth.js v5)
+- [x] PostgreSQL database with Drizzle ORM
+- [x] Warm sand design system (hrisa.tech aesthetic)
+- [x] Protected routes & middleware
+- [x] Dashboard page
+- [x] API routes for music and playlists
+- [x] Netlify deployment
+- [x] Neon Postgres integration
 
-### Step 4: Initialize Database
+### 📋 Phase 2: Music Player & Library (Next Steps)
+**Priority: High** - Core music functionality
 
-1. **Option A: Via Drizzle Studio (Local)**
-   ```bash
-   npm run db:studio
-   ```
-   Open the URL and verify tables are created
+- [ ] **Audio Player Component**
+  - [ ] Play/pause/skip controls
+  - [ ] Progress bar with seeking
+  - [ ] Volume control
+  - [ ] Mini player (collapsed view)
 
-2. **Option B: Via Vercel CLI**
-   ```bash
-   vercel env pull .env.local
-   npm run db:push
-   ```
+- [ ] **Music Library**
+  - [ ] Track list view
+  - [ ] File upload interface
+  - [ ] Storage integration (Vercel Blob or Netlify Blobs)
+  - [ ] Track metadata display
 
-## 🎯 Features
+- [ ] **Playlist Management**
+  - [ ] Create/edit/delete playlists
+  - [ ] Add/remove tracks from playlists
+  - [ ] Playlist view with tracks
+  - [ ] Drag-and-drop reordering
 
-### ✅ Completed
-- User authentication (register/login)
-- PostgreSQL database with Drizzle ORM
-- Spotify-inspired dark theme
-- Protected routes
-- Dashboard page
-- API routes for music and playlists
+### 📋 Phase 3: Enhanced Features
+**Priority: Medium** - Improve user experience
 
-### 🚧 In Progress
-- Audio player with Web Audio API
-- YouTube download integration
-- Playlist management UI
-- Track upload to Vercel Blob
+- [ ] **Search & Discovery**
+  - [ ] Search tracks by title/artist/album
+  - [ ] Filter by playlist
+  - [ ] Sort options (date, name, duration)
 
-### 📋 Planned
-- Search functionality
-- Equalizer
-- Listening history
-- User favorites
-- Collaborative playlists
+- [ ] **User Features**
+  - [ ] Favorites/likes system
+  - [ ] Listening history
+  - [ ] Recently played tracks
+  - [ ] User profile page
+
+- [ ] **Audio Enhancements**
+  - [ ] Equalizer (3-band: Bass, Mid, Treble)
+  - [ ] Preset EQ settings
+  - [ ] Playback speed control
+  - [ ] Crossfade between tracks
+
+### 📋 Phase 4: Social & Advanced
+**Priority: Low** - Nice-to-have features
+
+- [ ] Collaborative playlists (multi-user editing)
+- [ ] Share playlists with public links
+- [ ] Comments on tracks
+- [ ] User profiles and following
+- [ ] Queue management with shuffle/repeat
+- [ ] Lyrics display
+- [ ] Dark mode toggle
+- [ ] Mobile app (React Native/Expo)
+
+### 🔧 Technical Improvements
+- [ ] Implement caching strategy
+- [ ] Add unit tests (Vitest)
+- [ ] Add E2E tests (Playwright)
+- [ ] Performance optimization
+- [ ] SEO optimization
+- [ ] Analytics integration
+- [ ] Error monitoring (Sentry)
+
+---
+
+## 🚀 Development Approach
+
+**Add features step by step** - Don't overwhelm the codebase. Complete each phase before moving to the next.
+
+1. Build one feature at a time
+2. Test thoroughly before moving on
+3. Commit frequently with clear messages
+4. Deploy and verify in production
+5. Gather feedback before next feature
 
 ## 📄 License
 
