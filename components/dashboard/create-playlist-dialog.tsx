@@ -58,6 +58,9 @@ export function CreatePlaylistDialog({ open, onOpenChange }: CreatePlaylistDialo
         <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
         <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background-elevated p-6 rounded-lg shadow-xl max-w-md w-full">
           <Dialog.Title className="text-2xl font-bold mb-4">Create Playlist</Dialog.Title>
+          <Dialog.Description className="text-sm text-text-secondary mb-4">
+            Create a new playlist to organize your music collection
+          </Dialog.Description>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
